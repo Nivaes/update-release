@@ -25,7 +25,6 @@ runs:
 
         ls *
         gh release upload "${{ inputs.tag_name }}" * --clobber
-        # gh release upload "${{ inputs.tag_name }}" "${{ inputs.files }}" --clobber
 
 branding:
   icon: 'tag'
