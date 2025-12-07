@@ -1,13 +1,13 @@
-name: 'Upload release assets'
-description: 'Upload all asserts to Release.'
+name: 'Update release assets'
+description: 'Update Release.'
 author: 'Nivaes'
 inputs:
-  name:
-    description: "Gives the release a custom name. Defaults to tag name"
-    required: false
-  tag_name:
-    description: "Gives a tag name. Defaults to github.ref_name"
-    required: false
+  # name:
+  #   description: "Gives the release a custom name. Defaults to tag name"
+  #   required: false
+  # tag_name:
+  #   description: "Gives a tag name. Defaults to github.ref_name"
+  #   required: false
   files:
     description: "Newline-delimited list of path globs for asset files to upload"
     required: false
