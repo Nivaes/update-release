@@ -2,12 +2,9 @@ name: 'Update release assets'
 description: 'Update Release.'
 author: 'Nivaes'
 inputs:
-  # name:
-  #   description: "Gives the release a custom name. Defaults to tag name"
-  #   required: false
   tag_name:
     description: "Gives a tag name. Defaults to github.ref_name"
-    required: false
+    required: true
     default: ${{ github.ref_name }}
   files:
     description: "Newline-delimited list of path globs for asset files to upload"
@@ -22,8 +19,8 @@ runs:
         ASSETS=$(gh release view ${{ inputs.tag_name }} --json assets -q '.assets[].name')
 
         for ID in $ASSETS; do
-          echo "Deleting asset $ID"
-          gh release delete-asset ${{ inputs.tag_name }} $ID --yes
+          echo "Deleting ${{ inputs.tag_name }} asset $ID"
+          gh release delete-asset "${{ inputs.tag_name }}" "$ID" --yes
         done
 
         gh release upload ${{ inputs.tag_name }} ${{ inputs.files }} -clobber
