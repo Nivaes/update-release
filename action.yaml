@@ -19,11 +19,11 @@ runs:
         ASSETS=$(gh release view ${{ inputs.tag_name }} --json assets -q '.assets[].name')
 
         for ID in $ASSETS; do
-          echo "Deleting ${{ inputs.tag_name }} asset $ID"
+          echo "Deleting asset $ID"
           gh release delete-asset "${{ inputs.tag_name }}" "$ID" --yes
         done
 
-        gh release upload ${{ inputs.tag_name }} ${{ inputs.files }} -clobber
+        gh release upload ${{ inputs.tag_name }} ${{ inputs.files }} --clobber
 
 branding:
   icon: 'tag'
