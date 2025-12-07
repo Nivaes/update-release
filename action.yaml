@@ -22,10 +22,10 @@ runs:
 
         for ID in $ASSETS; do
           echo "Deleting asset $ID"
-          gh release delete-asset "${{ inputs.tag_name }}" "$ID" --yes
+          gh release delete-asset ${{ inputs.tag_name }} "$ID" --yes
         done
 
-        gh release upload "${{ inputs.tag_name }}" ${{ inputs.files }} -clobber
+        gh release upload ${{ inputs.tag_name }} ${{ inputs.files }} -clobber
 
 branding:
   icon: 'tag'
