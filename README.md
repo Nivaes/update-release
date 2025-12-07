@@ -9,7 +9,7 @@ on:
     push:
 steps:
     - name: Update release
-      uses: nivaes/update-release@develop  
+      uses: nivaes/update-release@v2  
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
