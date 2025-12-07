@@ -2,15 +2,49 @@ name: 'Upload release assets'
 description: 'Upload all asserts to Release.'
 author: 'Nivaes'
 inputs:
-  upload_url:
-    description: 'The URL for uploading assets to the release'
-    required: true
-  targets:
-    description: 'A glob of assets to upload'
-    required: true
+  name:
+    description: "Gives the release a custom name. Defaults to tag name"
+    required: false
+  tag_name:
+    description: "Gives a tag name. Defaults to github.ref_name"
+    required: false
+  files:
+    description: "Newline-delimited list of path globs for asset files to upload"
+    required: false
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "composite"
+  steps:
+    # - name: Instalar dotnet-script
+    #   shell: bash
+    #   run: dotnet tool install -g dotnet-script
+    
+    - name: Update release
+      id: run
+      shell: bash
+      run: |
+        gh auth login
+
+        gh release edit "${{ github.event.release.ref }}" \
+          --title "Nuevo título de la release" \
+          --notes "Nueva descripción de la release"
+
+        gh release delete "${{ github.event.release.ref }}" --archive -y
+
+        gh release upload "${{ github.event.release.ref }}" ${{ inputs.files }} -clobber
+
+    # - name: Ejecutar script C#
+    #   id: run
+    #   shell: bash
+    #   run: |
+    #     output=$(~/.dotnet/tools/dotnet-script $GITHUB_ACTION_PATH/src/Run.csx ${{ inputs.package-flow }})
+        
+    #     version_pack=$(echo "$output" | tail -n 3 | sed -n '1p')
+    #     version_release=$(echo "$output" | tail -n 3 | sed -n '2p')
+
+    #     echo Version release: $version_release version pack: $version_pack
+
+    #     echo "version-pack=$version_pack" >> $GITHUB_OUTPUT
+    #     echo "version-release=$version_release" >> $GITHUB_OUTPUT
 branding:
   icon: 'tag'
   color: 'gray-dark'
