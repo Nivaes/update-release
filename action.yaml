@@ -13,21 +13,11 @@ inputs:
     required: false
 runs:
   using: "composite"
-  steps:
-    # - name: Instalar dotnet-script
-    #   shell: bash
-    #   run: dotnet tool install -g dotnet-script
-    
+  steps:     
     - name: Update release
       id: run
       shell: bash
       run: |
-        gh auth login
-
-        gh release edit "${{ inputs.tag_name }}" \
-          --title "Nuevo título de la release" \
-          --notes "Nueva descripción de la release"
-
         gh release delete "${{ inputs.tag_name }}" --archive -y
 
         gh release upload "${{ inputs.tag_name }}" ${{ inputs.files }} -clobber
