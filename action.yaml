@@ -8,9 +8,10 @@ inputs:
   tag_name:
     description: "Gives a tag name. Defaults to github.ref_name"
     required: false
+    default: ${{ github.ref_name }}
   files:
     description: "Newline-delimited list of path globs for asset files to upload"
-    required: false
+    required: true
 runs:
   using: "composite"
   steps:     
