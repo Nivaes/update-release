@@ -23,7 +23,9 @@ runs:
           gh release delete-asset "${{ inputs.tag_name }}" "$ID" --yes
         done
 
-        gh release upload "${{ inputs.tag_name }}" "${{ inputs.files }}" --clobber
+        for f in ${{ inputs.files }}; do
+          gh release upload "${{ inputs.tag_name }}" "$f" --clobber
+        done
 
 branding:
   icon: 'tag'
