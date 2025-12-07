@@ -22,7 +22,7 @@ runs:
 
         for ID in $ASSETS; do
           echo "Deleting asset $ID"
-          gh api -X DELETE repos/${{ github.repository }}/releases/assets/$ID
+          gh release delete-asset "$ID" --yes
         done
 
         gh release upload "${{ inputs.tag_name }}" ${{ inputs.files }} -clobber
