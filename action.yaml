@@ -9,6 +9,10 @@ inputs:
   files:
     description: "Newline-delimited list of path globs for asset files to upload"
     required: true
+  clean_assets:
+    description: "Delete all existing release assets before uploading new ones"
+    required: false
+    default: "false"
 runs:
   using: "composite"
   steps:     
@@ -16,12 +20,14 @@ runs:
       id: run
       shell: bash
       run: |
-        ASSETS=$(gh release view ${{ inputs.tag_name }} --json assets -q '.assets[].name')
-
-        for ID in $ASSETS; do
-          echo "Deleting asset $ID"
-          gh release delete-asset "${{ inputs.tag_name }}" "$ID" --yes
-        done
+        if [[ "${{ inputs.clean_assets }}" == "true" ]]; then
+          ASSETS=$(gh release view ${{ inputs.tag_name }} --json assets -q '.assets[].name')
+          
+          for ID in $ASSETS; do
+            echo "Deleting asset $ID"
+            gh release delete-asset "${{ inputs.tag_name }}" "$ID" --yes
+          done
+        fi
 
         gh release upload "${{ inputs.tag_name }}" ${{ inputs.files }}
 
