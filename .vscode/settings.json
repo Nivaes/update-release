@@ -5,10 +5,12 @@
         "heads",
         "Like",
         "Nivaes",
+        "nullglob",
         "octet",
         "Octokit",
         "refs",
         "repos",
+        "shopt",
         "Star",
         "unknown",
         "Uploading"
